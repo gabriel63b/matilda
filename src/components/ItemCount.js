@@ -17,25 +17,16 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-export default function ItemCount({count, setCount}) {
+export default function ItemCount(props) {
     const classes = useStyles();
-    // const [count, setCount] = React.useState(0);
-    function aumentarContador(){
-        setCount(count +1);
-    }
     
-    function disminuirContador(){
-       if (count > 0) {
-        setCount(count -1);
-       }
-    }
 
         return (
             <div className={classes.root}>
                 <ButtonGroup>
-                    <Button variant="outlined" color="secondary" className={classes.marginR} onClick={disminuirContador}> - </Button>
-                    <h3> {count} </h3>
-                    <Button variant="outlined" color="secondary" onClick={aumentarContador}>+ </Button>
+                    <Button variant="outlined" color="secondary" className={classes.marginR} onClick={props.lessItem}> - </Button>
+                    <h3> {props.count} </h3>
+                    <Button variant="outlined" color="secondary" onClick={props.addItem}>+ </Button>
                 </ButtonGroup>
             </div>        
     )

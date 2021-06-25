@@ -1,116 +1,91 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { AddShoppingCart } from '@material-ui/icons';
+import Grid from '@material-ui/core/Grid';
 import {products} from '../Product-data';
-import humita from '../assets/humita.jpg';
-import ItemCount from './ItemCount';
+import CardItem from './CardItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
-  },
-  action: {
-    marginTop: "1rem"
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  marginR: {
-    marginRight: "30px",
+    flexGrow: 1,
+    padding: theme.spacing(3), 
   },
 }));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     maxWidth: 345,
+//   },
+//   action: {
+//     marginTop: "1rem"
+//   },
+//   media: {
+//     height: 0,
+//     paddingTop: '56.25%', // 16:9
+//   },
+//   expand: {
+//     transform: 'rotate(0deg)',
+//     marginLeft: 'auto',
+//     transition: theme.transitions.create('transform', {
+//       duration: theme.transitions.duration.shortest,
+//     }),
+//   },
+//   expandOpen: {
+//     transform: 'rotate(180deg)',
+//   },
+//   marginR: {
+//     marginRight: "30px",
+//   },
+// }));
 
-const ItemList = (props) => {
-  const classes = useStyles();
+const ItemList = () => {
+  
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  //Función para agregar productos al cart
- 
-  const addCart = id => {
-    
-    for (var i = 0; i < props.count; i++) {  
-    const product = products.filter ((product) => product.id === id); 
-    props.setCart ([...props.cart, ...product])
-  }
-  props.setCount(0);
-}
+// /*Estado de productos*/ 
+const [data, setData] = useState([]);
+  let miPromesa = new Promise((resolve, reject) => {  
+  setTimeout(function(){
+    const error = Math.random() > 1;
+    if(!error){      
+      resolve(products);  
+    }
+    reject("Error obteniendo los datos :(");
+    }, 2000);
+  });  
+
+  miPromesa.then((data) => {setData(data)})
+  .catch(
+    function(error){
+      console.log(error);
+  }).finally(
+      function(){
+     }
+   )
+  
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        action={
-            <Typography
-                className = {classes.action}
-                variant = 'h5'
-                color = 'textSecondary'
-            >
-                ${props.product.price}
-            </Typography>
-        }
-        title={props.product.name}
-        subheader="Simplemente las mejores"
+    <div>
+      <Grid container spacing={3}>
+      {console.log(data)}
+      {
+      data.map((product, index)=>{ return (
+      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <CardItem 
+          key={product.id}  
+          title={product.name}
+          text={product.description}
+          price={product.price}
+          image={product.image}
+          productId={product.id}
       />
-      <CardMedia
-        className={classes.media}
-        image={props.product.image}
-        title={props.product.name}
-      />
-      <CardContent>
-        Descripcion de empanada
-      </CardContent>
-      <CardActions disableSpacing>
-        <ItemCount count={props.count} setCount={props.setCount}/>{console.log(props.count)}
-        <IconButton aria-label="Add to Cart" onClick={() => addCart(props.product.id)}>
-          <AddShoppingCart fontsize="large"/>
-        </IconButton>
-        <IconButton aria-label="share">
-          <FavoriteIcon/>
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography>
-          {props.product.description}
-          </Typography>
-        </CardContent>
-      </Collapse>
-    </Card>
+      </Grid> 
+      )}
+      )}
+      </Grid>
+    </div>
   );
 }
 

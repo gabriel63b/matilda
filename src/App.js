@@ -4,14 +4,16 @@ import ItemList from './components/ItemList';
 import ItemListContainer from './components/ItemListContainer';
 import CheckOutPage from './components/CheckOutPage';
 import CheckOutCard from './components/CheckOutCard';
+import AppRouters from './routers/AppRouters'
 
 function App() {
   return (
     <div className="App">
-      <NavBar/>
+      {/* <NavBar/>
       {/* <CheckOutPage/> */}
-      {/* <CheckOutCard/>  */}
-       <ItemListContainer/>
+      {/* <CheckOutCard/>  
+       <ItemListContainer/> */}
+       <AppRouters/>
       {/* <ItemList/> */}
     </div>
   );
