@@ -6,6 +6,8 @@ import {products} from '../Product-data';
 import ItemList from './ItemList';
 import Typography from '@material-ui/core/Typography';
 import CheckOutCard from './CheckOutCard';
+import { useCart, useCartUpdate } from '../CartContext';
+import Total from './Total';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,14 +22,17 @@ const useStyles = makeStyles((theme) => ({
 
 const CheckOutPage = () => {
   const classes = useStyles();
-
+  const addToCart = useCartUpdate()
+  const cart = useCart()
+  
   function FormRow () {
       return (
           <React.Fragment>
                 { 
-                products.map((product, index)=>{ return (
+                cart.map((item, index)=>{ return (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
-                <CheckOutCard key={product.id} product={product}/>
+                  {console.log(item.quantity)}
+                <CheckOutCard key={item.id} product={item}/>
                 </Grid>
                 ) })} 
            </React.Fragment>
@@ -47,7 +52,7 @@ const CheckOutPage = () => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
           <Typography align="center" gutterBottom variant="h4">
-         Total
+         <Total/>
           </Typography>
         </Grid>
       </Grid>

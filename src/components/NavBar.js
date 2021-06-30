@@ -9,8 +9,8 @@ import Logo from '../assets/Logo.png';
 import CartWidget from "./CartWidget";
 import image from "../assets/delivery-man.svg";
 import { Badge } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
 import {Link, NavLink } from 'react-router-dom';
+import { useCart, useCartUpdate } from '../CartContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,13 +39,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
   const classes = useStyles();
+  const addToCart = useCartUpdate()
+  const cart = useCart()
 
+  console.log(cart)
 
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <NavLink to="/Home" activeClassName="selected">
+          <NavLink to="/" activeClassName="selected">
           <IconButton edge="start" className={classes.button} color="inherit" aria-label="menu">
            <img src = {Logo} className={classes.image}/>
           </IconButton>
@@ -60,7 +63,7 @@ export default function NavBar() {
                <strong>Login</strong>
             </Button>
           </NavLink> 
-            <Badge className ={classes.marginR} badgeContent={4} color="secondary"> 
+            <Badge className ={classes.marginR} badgeContent={cart?.length} color="secondary"> 
              <NavLink to="/Cart" ><CartWidget img={image}> </CartWidget></NavLink>
             </Badge>
            

@@ -12,11 +12,11 @@ import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { AddShoppingCart } from '@material-ui/icons';
-import Button from '@material-ui/core/Button';
-import {products} from '../Product-data';
 import { Link } from 'react-router-dom';
 import humita from '../assets/humita.jpg';
 import ItemCount from './ItemCount';
+import { useCart, useCartUpdate } from '../CartContext';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,15 +46,21 @@ const useStyles = makeStyles((theme) => ({
 
   
 function CardItem(props) {
+    const addToCart = useCartUpdate()
+    const cart = useCart()
+    
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
     setExpanded(!expanded);
   };
- 
+  
+
+  
   /*Estado del contador del boton*/
-  const [count, setCount] = React.useState(0);
+  const inicialCount =0;
+  const [count, setCount] = React.useState(inicialCount);
     function addItem(){
         setCount(count +1);
     }
@@ -100,8 +106,17 @@ function CardItem(props) {
         <CardActions disableSpacing>
             <ItemCount addItem={addItem} lessItem={lessItem} count={count}/>
            {count > 0 ? (
-            <IconButton aria-label="Add to Cart" >
-              <AddShoppingCart fontsize="large" />
+            <IconButton aria-label="Add to Cart" 
+            onClick={() => 
+            addToCart(
+                props.productId,
+                props.title,
+                count,
+                props.price,
+                props.image,
+              )
+            }>
+              <AddShoppingCart fontsize="large"  />
             </IconButton>
            ) : (
             <IconButton aria-label="Add to Cart" disabled>

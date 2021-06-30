@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -8,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import { useCart, useCartUpdate, useCartRemove } from '../CartContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +23,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CheckOutCard(props) {
-    console.log(props.product);
+    const addToCart = useCartUpdate()
+    const removeItem = useCartRemove()
+    const cart = useCart()
+    
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -55,7 +57,7 @@ export default function CheckOutCard(props) {
       
       <CardActions disableSpacing>
       <IconButton>
-        <DeleteIcon fontSize="large"/> 
+        <DeleteIcon fontSize="large" onClick={()=>removeItem(props.product.id)}/> 
       </IconButton>
       </CardActions>
     </Card>

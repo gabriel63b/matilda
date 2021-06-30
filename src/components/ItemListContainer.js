@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import ItemList from './ItemList';
-import Cart from './Cart';
-import {products} from '../Product-data';
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

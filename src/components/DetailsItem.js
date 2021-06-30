@@ -7,14 +7,7 @@ import ItemDetail from "./ItemDetail";
 
 function DetailsItem() {
     const {product_id} = useParams ()
-    // console.log(product_id);
-    // const [detail, setDetail] = useState([])
-
-    // useEffect(()=>  {
-    //     fetch( "https://fakestoreapi.com/products")
-    //     .then((res)=>res.json())
-    //     .then((res)=>{setDetail(res[product_id-1])})
-    // },[])
+ 
     console.log(products[product_id]);
 
     return (
