@@ -2,6 +2,8 @@ import React, {useContext, createContext, useState} from 'react'
 export const CartContext = createContext()
 export const CartUpdateContext = createContext()
 export const CartRemoveContext = createContext()
+export const CartTotalContext = createContext()
+export const CartTotalItemContext = createContext()
 
 // Costume hook
 export function useCart() {
@@ -16,29 +18,81 @@ export function useCartRemove () {
     return useContext (CartRemoveContext)
 }
 
+export function useCartTotal () {
+  return useContext (CartTotalContext)
+}
+
+export function useCartItemTotal () {
+  return useContext (CartTotalItemContext)
+}
+
 export function CartProvider ({children}) {
     const [cart,setCart] = useState ([])
-    // const quantity =0;
-    const addToCart = (id, name, count, price, image) => {
-          const tmp = {
-            id: id,
-            name: name,
-            quantity: count,
-            price: price,
-            image: image,
-          };
-          const ord = cart;
-          ord.push(tmp);
-        console.log(cart);
-        return setCart(ord);
-      };
+    const [total,setTotal] = useState (0)
+    const [quant ,setQuant] = useState (0)
 
-    const removeItem = (id) => {
-        const index = cart.findIndex ((item=> item.id === id));
-        let newCart = [...cart];
-        newCart.splice(index,1); 
-        return  setCart(newCart);
+    const addToCart = (id, name, count, price, image) => { 
+      const aux = cart.find((item) => item.id === id);
+    if (!aux) {
+     const tmp = {
+        id: id,
+        name: name,
+        quantity: count,
+        unitPrice: price,
+        image: image,
+        totalPrice: price * count,
+      };
+      setCart([...cart, tmp]);
+    } else {
+      updateCart(id,count);
+    }
+    console.log(cart);
+    totalCart();
+    totalItems();
     };
+    
+    const updateCart =(id, count) => {
+      const newCart = cart.map ((item)=> {
+        
+        if  (item.id === id){
+       return {
+         ...item,
+         quantity: item.quantity + count,
+       }
+     }
+     return item
+    });
+    setCart(newCart);
+    
+    }
+  
+    const removeItem = (id) => {
+      const newCart = cart.filter ((item)=> item.id !== id);
+        setCart(newCart);
+        totalCart();
+    };
+
+    const totalCart = () =>{
+      let tot = 0;
+      cart.map((item)=>{ 
+        tot = item.quantity * item.unitPrice + tot;
+        console.log(tot);
+        return tot;
+      })
+      setTotal(tot);
+    }  
+
+    const totalItems = () =>{
+      let q=0; 
+      cart.map((item)=>{ 
+        q = item.quantity + q;
+        console.log(q);
+        return q;
+      })
+      
+      setQuant(q);
+      console.log(quant);
+    }
      /*
    * Establecemos 2 Providers
    * 1 para proveer el State
@@ -51,7 +105,11 @@ export function CartProvider ({children}) {
     <CartContext.Provider value={cart}>
       <CartUpdateContext.Provider value = {addToCart}>
         <CartRemoveContext.Provider value = {removeItem}>
+          <CartTotalContext.Provider value = {total}>
+            <CartTotalItemContext.Provider value = {quant}>
         {children}
+                </CartTotalItemContext.Provider>
+              </CartTotalContext.Provider>
            </CartRemoveContext.Provider>
         </CartUpdateContext.Provider>
     </CartContext.Provider>
@@ -59,24 +117,3 @@ export function CartProvider ({children}) {
    
 }
 
-
-// const addToCart = (id, name, count, price, image) => {
-//     const index = cart.findIndex ((item=> item.id === id)); 
-//         if (index>=0) {
-//             quantity = cart.quantity[index] + count;
-//         } 
-//         else {
-//           quantity = count;
-//         }
-//         const tmp = {
-//           id: id,
-//           name: name,
-//           quantity: quantity,
-//           price: price,
-//           image: image,
-//         };
-//         const ord = cart;
-//         ord.push(tmp);
-//       console.log(cart);
-//       return setCart(ord);
-//     };

@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 const CheckOutPage = () => {
   const classes = useStyles();
-  const addToCart = useCartUpdate()
   const cart = useCart()
   
   function FormRow () {

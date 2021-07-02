@@ -94,14 +94,6 @@ function CardItem(props) {
         />
         <CardContent>
           <Link to={`/Productos/detail/${props.productId}`}>Descripcion</Link>
-
-
-          {/* <Link to={`/Productos/detail/${props.productId}`, 
-         state: {
-                text: props.text,
-                title: props.title,
-              },> 
-          Descripcion de empanada </Link> */}
         </CardContent>
         <CardActions disableSpacing>
             <ItemCount addItem={addItem} lessItem={lessItem} count={count}/>

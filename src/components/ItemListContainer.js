@@ -18,9 +18,6 @@ export default function ItemListContainer() {
   return (
     <div className={classes.root}>
        <ItemList />
-      {/* {console.log(cart)}
-      {console.log(count)}
-       <Cart cart={cart} setCart={setCart}/>     */}
     </div>
   );
 }

@@ -43,19 +43,26 @@ export default function CheckOutCard(props) {
                 variant = 'h5'
                 color = 'textSecondary'
             >
-                ${props.product.price}
+                ${props.product.unitPrice}
             </Typography>
         }
         title={props.product.name}
-        subheader="Simplemente las mejores"
+        
       />
       <CardMedia
         className={classes.media}
         image={props.product.image}
         title={props.product.name}
       />
-      
+
       <CardActions disableSpacing>
+      <Typography
+                className = {classes.action}
+                variant = 'h5'
+                color = 'textSecondary'
+            >
+                Cantidad: {props.product.quantity}
+            </Typography>
       <IconButton>
         <DeleteIcon fontSize="large" onClick={()=>removeItem(props.product.id)}/> 
       </IconButton>
