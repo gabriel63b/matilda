@@ -52,7 +52,7 @@ export function CartProvider ({children}) {
     }
     console.log(cart);
     console.log(totalCart(cart));
-    totalItems();
+    totalItems(cart);
     };
     
     const updateCart =(id, count) => {
@@ -81,30 +81,13 @@ export function CartProvider ({children}) {
 
     const totalCart = (cart) => {
       return(cart.reduce((amount, item) => item.totalPrice + amount, 0));
-      
+    }
+
+    const totalItems = (cart) => {
+      return setQuant(cart.reduce((quantItem, item) => item.quantity + quantItem, 0));
     }
     
-    // const totalCart = () =>{
-    //   let tot = 0;
-    //   cart.map((item)=>{ 
-    //     tot = item.quantity * item.unitPrice + tot;
-    //     console.log(tot);
-    //     return tot;
-    //   })
-    //   setTotal(tot);
-    // }  
 
-    const totalItems = () =>{
-      let q=0; 
-      cart.map((item)=>{ 
-        q = item.quantity + q;
-        console.log(q);
-        return q;
-      })
-      
-      setQuant(q);
-      console.log(quant);
-    }
      /*
    * Establecemos 2 Providers
    * 1 para proveer el State

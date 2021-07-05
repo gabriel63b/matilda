@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {products} from '../Product-data';
 import CardItem from './CardItem';
+import * as firebase from 'firebase';
+import 'firebase/firestore'
+import {getFirestore } from '../firebase'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,41 +15,54 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ItemList = () => {
-  
-  const [expanded, setExpanded] = React.useState(false);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState([]);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  useEffect(() => {
+    setLoading(true);
+    const db =  getFirestore();
+    const data = db.collection("items");
 
-// /*Estado de productos*/ 
-const [data, setData] = useState([]);
-  let miPromesa = new Promise((resolve, reject) => {  
-  setTimeout(function(){
-    const error = Math.random() > 1;
-    if(!error){      
-      resolve(products);  
-    }
-    reject("Error obteniendo los datos :(");
-    }, 2000);
-  });  
-
-  miPromesa.then((data) => {setData(data)})
-  .catch(
-    function(error){
-      console.log(error);
-  }).finally(
-      function(){
+    data.get().then((querySnapshot) => {
+     if (querySnapshot.size === 0) {
+       console.log ('No results');
      }
-   )
-  
+     setItems (querySnapshot.docs.map(doc => doc.data()))
+    }). catch ((error) => {
+      console.log ("Error searching items", error);
+    }).finally (() => {
+      setLoading(false);
+    })
+  }, [])
 
+  console.log(items);
+// /*Estado de productos*/ 
+// const [data, setData] = useState([]);
+//   let miPromesa = new Promise((resolve, reject) => {  
+//   setTimeout(function(){
+//     const error = Math.random() > 1;
+//     if(!error){      
+//       resolve(products);  
+//     }
+//     reject("Error obteniendo los datos :(");
+//     }, 2000);
+//   });  
+
+//   miPromesa.then((data) => {setData(data)})
+//   .catch(
+//     function(error){
+//       console.log(error);
+//   }).finally(
+//       function(){
+//      }
+//    )
+  
   return (
     <div>
       <Grid container spacing={3}>
-      {console.log(data)}
+      {console.log(items)}
       {
-      data.map((product, index)=>{ return (
+      items.map((product, index)=>{ return (
       <Grid item xs={12} sm={6} md={4} lg={3}>
       <CardItem 
           key={product.id}  
@@ -59,7 +75,7 @@ const [data, setData] = useState([]);
       </Grid> 
       )}
       )}
-      </Grid>
+      </Grid> 
     </div>
   );
 }
