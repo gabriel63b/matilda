@@ -26,11 +26,15 @@ export function useCartItemTotal () {
   return useContext (CartTotalItemContext)
 }
 
+// export const totalCart = (cart) => {
+//   cart.reduce((amount, item) => item.totalPrice + amount, 0)
+// }
+
+
 export function CartProvider ({children}) {
     const [cart,setCart] = useState ([])
     const [total,setTotal] = useState (0)
     const [quant ,setQuant] = useState (0)
-
     const addToCart = (id, name, count, price, image) => { 
       const aux = cart.find((item) => item.id === id);
     if (!aux) {
@@ -47,7 +51,7 @@ export function CartProvider ({children}) {
       updateCart(id,count);
     }
     console.log(cart);
-    totalCart();
+    console.log(totalCart(cart));
     totalItems();
     };
     
@@ -55,9 +59,12 @@ export function CartProvider ({children}) {
       const newCart = cart.map ((item)=> {
         
         if  (item.id === id){
+          const precio = (item.quantity + count)*item.unitPrice; 
+          console.log(precio);
        return {
          ...item,
          quantity: item.quantity + count,
+         totalPrice: precio,
        }
      }
      return item
@@ -69,18 +76,23 @@ export function CartProvider ({children}) {
     const removeItem = (id) => {
       const newCart = cart.filter ((item)=> item.id !== id);
         setCart(newCart);
-        totalCart();
+        totalCart(cart);
     };
 
-    const totalCart = () =>{
-      let tot = 0;
-      cart.map((item)=>{ 
-        tot = item.quantity * item.unitPrice + tot;
-        console.log(tot);
-        return tot;
-      })
-      setTotal(tot);
-    }  
+    const totalCart = (cart) => {
+      return(cart.reduce((amount, item) => item.totalPrice + amount, 0));
+      
+    }
+    
+    // const totalCart = () =>{
+    //   let tot = 0;
+    //   cart.map((item)=>{ 
+    //     tot = item.quantity * item.unitPrice + tot;
+    //     console.log(tot);
+    //     return tot;
+    //   })
+    //   setTotal(tot);
+    // }  
 
     const totalItems = () =>{
       let q=0; 
@@ -105,7 +117,7 @@ export function CartProvider ({children}) {
     <CartContext.Provider value={cart}>
       <CartUpdateContext.Provider value = {addToCart}>
         <CartRemoveContext.Provider value = {removeItem}>
-          <CartTotalContext.Provider value = {total}>
+           <CartTotalContext.Provider value = {total}>
             <CartTotalItemContext.Provider value = {quant}>
         {children}
                 </CartTotalItemContext.Provider>

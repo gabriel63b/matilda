@@ -1,15 +1,18 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Button from '@material-ui/core/Button';
-import { useCartTotal, } from '../CartContext';
+import { useCart, useCartTotal} from '../CartContext';
 
 const Total = () => {
-    const total = useCartTotal()
-
+    const cart = useCart()
+    const totalCart = useCartTotal()
+  
+console.log(cart)
 
     return (
         <div >
+            
             <h5>Total item: </h5>
-            <h5>${total}</h5>
+            <h5>${tot}</h5>
             <Button variant="contained" color="secondary">Total</Button>
         </div>
     )
