@@ -2,9 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import firebase from 'firebase'
-// import firebase from './app'
-import '@firebase/firestore'
 import reportWebVitals from './reportWebVitals';
 
 

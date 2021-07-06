@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ItemList from './ItemList';
 
@@ -17,7 +17,7 @@ export default function ItemListContainer() {
      
   return (
     <div className={classes.root}>
-       <ItemList />
+       <ItemList/>
     </div>
   );
 }

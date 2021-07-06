@@ -10,7 +10,7 @@ import CartWidget from "./CartWidget";
 import image from "../assets/delivery-man.svg";
 import { Badge } from '@material-ui/core';
 import {Link, NavLink } from 'react-router-dom';
-import { useCart, useCartUpdate, useCartItemTotal } from '../CartContext';
+import { useCart, useCartUpdate, totalItems } from '../CartContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,10 +41,10 @@ export default function NavBar() {
   const classes = useStyles();
   const addToCart = useCartUpdate()
   const cart = useCart()
-  const quant = useCartItemTotal()
+  
 
   console.log(cart)
-  console.log(quant)
+
   
   return (
     <div className={classes.root}>
@@ -65,7 +65,7 @@ export default function NavBar() {
                <strong>Login</strong>
             </Button>
           </NavLink> 
-            <Badge className ={classes.marginR} badgeContent={quant} color="secondary"> 
+            <Badge className ={classes.marginR} badgeContent={totalItems(cart)} color="secondary"> 
              <NavLink to="/Cart" ><CartWidget img={image}> </CartWidget></NavLink>
             </Badge>
            

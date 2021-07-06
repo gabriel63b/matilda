@@ -30,6 +30,13 @@ export function useCartItemTotal () {
 //   cart.reduce((amount, item) => item.totalPrice + amount, 0)
 // }
 
+export const totalCart = (cart) => {
+  return(cart.reduce((amount, item) => item.totalPrice + amount, 0));
+}
+
+export const totalItems = (cart) => {
+  return cart.reduce((quantItem, item) => item.quantity + quantItem, 0);
+}
 
 export function CartProvider ({children}) {
     const [cart,setCart] = useState ([])
@@ -79,13 +86,8 @@ export function CartProvider ({children}) {
         totalCart(cart);
     };
 
-    const totalCart = (cart) => {
-      return(cart.reduce((amount, item) => item.totalPrice + amount, 0));
-    }
+ 
 
-    const totalItems = (cart) => {
-      return setQuant(cart.reduce((quantItem, item) => item.quantity + quantItem, 0));
-    }
     
 
      /*
