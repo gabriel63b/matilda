@@ -16,7 +16,7 @@ function AppRouters() {
             <Switch>
                 <Route exact path="/" component={Home}></Route>
                 <Route exact path="/Login" component={Login}></Route>
-                {/* <Route exact path="/SignUp" component={SignUp}></Route> */}
+                <Route exact path="/SignUp" component={SignUp}></Route> 
                 <Route exact path="/Cart" component={Cart}></Route>
                 <Route exact path="/Productos/detail/:product_id" component={DetailsItem}></Route>
             </Switch>

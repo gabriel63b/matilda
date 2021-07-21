@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -13,9 +13,9 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { AddShoppingCart } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
-import humita from '../assets/humita.jpg';
 import ItemCount from './ItemCount';
 import { useCart, useCartUpdate } from '../CartContext';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,10 +48,8 @@ const useStyles = makeStyles((theme) => ({
 function CardItem(props) {
     const addToCart = useCartUpdate()
     const cart = useCart()
-    
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
-
     const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -70,6 +68,21 @@ function CardItem(props) {
         setCount(count -1);
        }
     }
+
+    function addCartItem() {
+       
+        addToCart(
+          props.productId,
+          props.title,
+          count,
+          props.price,
+          props.image,
+          );
+         
+          setCount(0);
+      
+    }
+
     return (
         
         <Card className={classes.root}>
@@ -93,21 +106,14 @@ function CardItem(props) {
           title={props.text}
         />
         <CardContent>
-          <Link to={`/Productos/detail/${props.productId}`}>Descripcion</Link>
+          <Link to={`/Productos/detail/${props.productId}`}>+ Info</Link>
         </CardContent>
+        
         <CardActions disableSpacing>
-            <ItemCount addItem={addItem} lessItem={lessItem} count={count}/>
+        <ItemCount addItem={addItem} lessItem={lessItem} count={count}/>    
            {count > 0 ? (
             <IconButton aria-label="Add to Cart" 
-            onClick={() => 
-            addToCart(
-                props.productId,
-                props.title,
-                count,
-                props.price,
-                props.image,
-              )
-            }>
+            onClick={addCartItem}>
               <AddShoppingCart fontsize="large"  />
             </IconButton>
            ) : (
@@ -142,4 +148,3 @@ function CardItem(props) {
 
 export default CardItem
 
-// onClick={() => addCart(props.product.id)}

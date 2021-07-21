@@ -7,54 +7,80 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Avatar from '@material-ui/core/Avatar';
+import Total from './Total';
+import { useCart, useCartRemove } from '../CartContext';
+import Box from '@material-ui/core/Box';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
+
+const useStyles = makeStyles((theme) => ({
+  
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(5),
+     
+    },
   },
-});
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+  },
+  label: {
+    fontWeight: 'bold',
+  },
+}));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
-export default function DenseTable() {
+
+export default function CartPage() {
   const classes = useStyles();
-
+  const cart = useCart()
+  const removeItem = useCartRemove()
+  
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
+   
         <TableHead>
-          <TableRow>
-            <TableCell>Producto</TableCell>
-            <TableCell align="right">Cantidad</TableCell>
-            <TableCell align="right">Precio Unitario</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          <TableRow className={classes.label}>
+          
+            <TableCell ><Box fontWeight="fontWeightBold" fontSize={18}>PRODUCTO</Box> </TableCell>  
+            <TableCell align="center"><Box fontWeight="fontWeightBold" fontSize={18}>CANTIDAD</Box></TableCell>
+            <TableCell align="center"><Box fontWeight="fontWeightBold" fontSize={18}>PRECIO UNITARIO</Box></TableCell>
+            <TableCell align="center"><Box fontWeight="fontWeightBold" fontSize={18}>TOTAL</Box></TableCell>
+            <TableCell align="center"><Box fontWeight="fontWeightBold" fontSize={18}>ELIMINAR</Box></TableCell>
+          
           </TableRow>
+        
         </TableHead>
+    
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
+          {cart.map((item) => (
+            <TableRow key={item.name}>
+              <TableCell  component="th" scope="row">
+              <Avatar  alt="Remy Sharp" src={item.image} className={classes.large}/><Box fontWeight="fontWeightBold" fontSize={16}>{item.name}</Box>
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="center"><Box fontWeight="fontWeightBold" fontSize={16}>{item.quantity}</Box></TableCell>
+              <TableCell align="center"><Box fontWeight="fontWeightBold" fontSize={16}>${item.unitPrice}.00</Box></TableCell>
+              <TableCell align="center"><Box fontWeight="fontWeightBold" fontSize={16}>${item.totalPrice}.00</Box></TableCell>
+              <TableCell align="center">
+                <IconButton>
+                    <DeleteIcon fontSize="large" onClick={()=>removeItem(item.id)}/> 
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Total/>
     </TableContainer>
   );
 }

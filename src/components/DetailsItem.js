@@ -1,19 +1,20 @@
-import React,  {useEffect, useState} from 'react'
+import React  from 'react'
 import { useParams } from 'react-router'
-// import Item from "./Item";
-import {products} from '../Product-data';
 import ItemDetail from "./ItemDetail";
+import { useItems} from '../CartContext';
 
 
 function DetailsItem() {
     const {product_id} = useParams ()
- 
-    console.log(products[product_id]);
+    const items = useItems()
+    
+    /* Hace coincidir los id, del parametro con el producto */
+    const aux = items.find((item) => item.id == product_id);
+   
 
     return (
-        
         <div>
-            <ItemDetail prod ={products[product_id]}/> 
+            <ItemDetail prod ={aux}/> 
         </div>
     )
 }

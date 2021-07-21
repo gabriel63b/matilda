@@ -1,33 +1,44 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import Button from '@material-ui/core/Button';
-import { useCart, useCartItemTotal, totalCart, totalItems } from '../CartContext';
+import { makeStyles } from '@material-ui/core/styles';
+import { useCart, totalCart, totalItems, useCartRemove } from '../CartContext';
 
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(5),
+        marginLeft: 100,
+      },
+    },
+    marginR: {
+       marginRight: 15,
+       marginTop: 15,
+    },
+    cartTotal: {
+        textAlign: "end",
+        
+    },
+    marginT: {
+        marginTop: 15,
+    }
+  }));
+  
 const Total = () => {
     const cart = useCart()
-    const totalItemCart = useCartItemTotal()
+    const removeItem = useCartRemove()
+    const classes = useStyles();
  
-console.log(cart)
-
-// const totalCart = (cart) => {
-//     return(cart.reduce((amount, item) => item.totalPrice + amount, 0));
-// }
-
-// const totalItems = (cart) => {
-//     return (cart.reduce((quantItem, item) => item.quantity + quantItem, 0));
-//   }
-
-
     return (
-        <div>
-            <h5>Total item: {totalItems(cart)} </h5>
-            <h5>${totalCart(cart)}</h5>
-            <Button variant="contained" color="secondary">Total</Button>
+        <div className={classes.root}>
+        <div className={classes.cartTotal}>
+            <h5 className={classes.marginT}>Empanadas pedidas: {totalItems(cart)} </h5>
+            <h3 className={classes.marginT}>TOTAL: ${totalCart(cart)}</h3>
+            <Button variant="outlined" color="primary"className={classes.marginR}  onClick={()=>removeItem(-1)}>Vaciar Carrito</Button>
+            <Button variant="contained" color="primary" className={classes.marginT}>Pagar</Button>
+        </div>
         </div>
     )
 }
 
 export default Total
-// const [total, setTotal] = useState(0); 
-// useEffect(() => {        
-//       setTotal = totalCart();
-//    }, []);

@@ -12,6 +12,7 @@ import { AddShoppingCart } from '@material-ui/icons';
 import ItemCount from './ItemCount';
 import { useCart, useCartUpdate } from '../CartContext';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
       maxWidth: 345,
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
   
 function ItemDetail(props) {
+    console.log(props);
     const addToCart = useCartUpdate()
     const cart = useCart()
     const classes = useStyles();
@@ -60,10 +62,26 @@ function ItemDetail(props) {
         setCount(count -1);
        }
     }
+    
+    function addCartItem(event) {
+      event.preventDefault();
+      addToCart(
+        props.prod.id,
+        props.prod.name,
+        count,
+        props.prod.price,
+        props.prod.image,
+        );
+       
+        setCount(0);
+    }
+     
+
     return (
         
         <Card className={classes.root}>
           DETALLE DEL PRODUCTO
+        
         <CardHeader
             
             action={
@@ -79,6 +97,7 @@ function ItemDetail(props) {
             title={props.prod.name}
             subheader="Simplemente las mejores"
         />
+        
         <CardMedia
           className={classes.media}
           image={props.prod.image}
@@ -91,15 +110,7 @@ function ItemDetail(props) {
             <ItemCount addItem={addItem} lessItem={lessItem} count={count}/>
            {count > 0 ? (
              <IconButton aria-label="Add to Cart" 
-             onClick={() => 
-             addToCart(
-                 props.prod.id,
-                 props.prod.name,
-                 count,
-                 props.prod.price,
-                 props.prod.image,
-               )
-             }>
+             onClick={addCartItem}>
               <AddShoppingCart fontsize="large" />
             </IconButton>
            ) : (

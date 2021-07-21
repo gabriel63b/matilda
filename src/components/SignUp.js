@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-/*
+
 export default function SignUp() {
   const classes = useStyles();
   const [email, setEmail] = useState("")
@@ -59,15 +59,16 @@ export default function SignUp() {
     e.preventDefault();
     auth.createUserWithEmailAndPassword(email, password).then((auth) => {
       console.log(auth);
-      if (auth) {
-        history.push("/")
-      }
-    }).catch(err =>alert(err.message))
+     if (auth) {
+       history.push("/")
+     }
+   }).catch(err =>alert(err.message))
   }
 
   return (
+    
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
+      <CssBaseline />{console.log("dddddd")}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -158,4 +159,4 @@ export default function SignUp() {
       </Box>
     </Container>
   );
-}*/
+}

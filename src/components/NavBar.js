@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,8 +9,9 @@ import Logo from '../assets/Logo.png';
 import CartWidget from "./CartWidget";
 import image from "../assets/delivery-man.svg";
 import { Badge } from '@material-ui/core';
-import {Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useCart, useCartUpdate, totalItems } from '../CartContext';
+import swall from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,12 +38,29 @@ const useStyles = makeStyles((theme) => ({
   } 
 }));
 
+
+
 export default function NavBar() {
   const classes = useStyles();
   const addToCart = useCartUpdate()
   const cart = useCart()
+  const [to, setTo] = useState("/");
   
-
+  /*Comprueba si el carrito está vacio, envia alerta y no nos lleva a la pagina de carrito si está vacio*/
+  const CartEmpty = () => {
+    
+    let aux = "/Cart";
+    if (cart.length === 0) {
+      aux = "/";
+      swall({
+        title: "Todavia no hay productos agregados",
+        icon: "warning",
+        timer : "1500",
+      })
+    } 
+    setTo(aux);
+    return aux;
+  }
   console.log(cart)
 
   
@@ -66,10 +84,8 @@ export default function NavBar() {
             </Button>
           </NavLink> 
             <Badge className ={classes.marginR} badgeContent={totalItems(cart)} color="secondary"> 
-             <NavLink to="/Cart" ><CartWidget img={image}> </CartWidget></NavLink>
+             <NavLink onClick = {CartEmpty} to={to}><CartWidget img={image}></CartWidget></NavLink>
             </Badge>
-           
-      
           </div>
         </Toolbar>
       </AppBar>
