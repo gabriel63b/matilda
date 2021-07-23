@@ -1,14 +1,13 @@
 import React, {useContext, createContext, useState, useEffect} from 'react'
 import swall from 'sweetalert';
 import 'firebase/firestore'
-import {getFirestore, storage } from './firebase'
+import {getFirestore} from './firebase'
 export const ItemsContext = createContext()
 export const LoadItemsContext = createContext()
 export const CartContext = createContext()
 export const CartUpdateContext = createContext()
 export const CartRemoveContext = createContext()
-export const CartTotalContext = createContext()
-export const CartTotalItemContext = createContext()
+
 
 // Costume hook
 export function useItems() {
@@ -30,26 +29,21 @@ export function useCartRemove () {
     return useContext (CartRemoveContext)
 }
 
-export function useCartTotal () {
-  return useContext (CartTotalContext)
-}
 
-export function useCartItemTotal () {
-  return useContext (CartTotalItemContext)
-}
-
+/*Calcula el importe total de compra*/
 export const totalCart = (cart) => {
   return(cart.reduce((amount, item) => item.totalPrice + amount, 0));
 }
-
+/*Cuenta la cantidad de items total agregados al carro de compras*/
 export const totalItems = (cart) => {
   return cart.reduce((quantItem, item) => item.quantity + quantItem, 0);
 }
 
+/*Elimina todos los productos del carro de compras*/
+
+
 export function CartProvider ({children}) {
     const [cart,setCart] = useState ([])
-    const [total,setTotal] = useState (0)
-    const [quant ,setQuant] = useState (0)
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState([]);
   
@@ -117,22 +111,33 @@ export function CartProvider ({children}) {
     setCart(newCart);
     }
   
+  const removeTotalItem = () => {
+      setCart([]);
+    } 
+
     /*Elimina uno o todos los productos del carro de compras*/
     const removeItem = (id) => {
-      if  (id === -1){
-        swall({
-          title: "¿Desea eliminar todos los elemenos del carrito?",
-          icon: "warning",
-          buttons: ["No", "Si"],
-        }).then(respuesta=>{
-          if (respuesta) {setCart([]);}
-        });
-      } else
-      {
-      const newCart = cart.filter ((item)=> item.id !== id);
-        setCart(newCart);
-        totalCart(cart);
-      }
+      
+      switch (id) {
+        case -2: removeTotalItem();
+        break;
+        case -1: {
+          swall({
+            title: "¿Desea eliminar todos los elemenos del carrito?",
+            icon: "warning",
+            buttons: ["No", "Si"],
+          }).then(respuesta=>{
+            if (respuesta) {removeTotalItem();}
+          });
+          break;}
+        
+        default: {
+          const newCart = cart.filter ((item)=> item.id !== id);
+            setCart(newCart);
+            totalCart(cart);
+          }
+        }
+    
     };
 
 
@@ -142,11 +147,7 @@ export function CartProvider ({children}) {
         <CartContext.Provider value={cart}>
           <CartUpdateContext.Provider value = {addToCart}>
             <CartRemoveContext.Provider value = {removeItem}>
-              <CartTotalContext.Provider value = {total}>
-                <CartTotalItemContext.Provider value = {quant}>
             {children}
-                    </CartTotalItemContext.Provider>
-                  </CartTotalContext.Provider>
               </CartRemoveContext.Provider>
             </CartUpdateContext.Provider>
         </CartContext.Provider>

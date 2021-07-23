@@ -10,7 +10,7 @@ import CartWidget from "./CartWidget";
 import image from "../assets/delivery-man.svg";
 import { Badge } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
-import { useCart, useCartUpdate, totalItems } from '../CartContext';
+import { useCart, totalItems } from '../CartContext';
 import swall from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
   const classes = useStyles();
-  const addToCart = useCartUpdate()
   const cart = useCart()
   const [to, setTo] = useState("/");
   
@@ -61,7 +60,6 @@ export default function NavBar() {
     setTo(aux);
     return aux;
   }
-  console.log(cart)
 
   
   return (
@@ -70,7 +68,7 @@ export default function NavBar() {
         <Toolbar>
           <NavLink to="/" activeClassName="selected">
           <IconButton edge="start" className={classes.button} color="inherit" aria-label="menu">
-           <img src = {Logo} className={classes.image}/>
+           <img src = {Logo} className={classes.image}></img>
           </IconButton>
           </NavLink>
           <div className={classes.grow}/>
@@ -78,7 +76,7 @@ export default function NavBar() {
             Hola usuario
           </Typography>
           <div className={classes.button}>
-          <NavLink to="/Login" activeClassName="selected">
+          <NavLink to="/Login" activeClassName="selected" style={{ textDecoration: 'none' }}>
             <Button className ={classes.marginR} variant="outlined">
                <strong>Login</strong>
             </Button>

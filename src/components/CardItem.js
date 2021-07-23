@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -14,7 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { AddShoppingCart } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import ItemCount from './ItemCount';
-import { useCart, useCartUpdate } from '../CartContext';
+import { useCartUpdate } from '../CartContext';
 
 
 
@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
   
 function CardItem(props) {
     const addToCart = useCartUpdate()
-    const cart = useCart()
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
@@ -70,7 +69,6 @@ function CardItem(props) {
     }
 
     function addCartItem() {
-       
         addToCart(
           props.productId,
           props.title,
@@ -78,15 +76,12 @@ function CardItem(props) {
           props.price,
           props.image,
           );
-         
           setCount(0);
-      
     }
 
     return (
         
         <Card className={classes.root}>
-          
         <CardHeader
             action={
                 <Typography
@@ -106,7 +101,7 @@ function CardItem(props) {
           title={props.text}
         />
         <CardContent>
-          <Link to={`/Productos/detail/${props.productId}`}>+ Info</Link>
+          <Link to={`/Productos/detail/${props.productId}`} style={{ textDecoration: 'none' }}>+ Info</Link>
         </CardContent>
         
         <CardActions disableSpacing>
@@ -114,11 +109,11 @@ function CardItem(props) {
            {count > 0 ? (
             <IconButton aria-label="Add to Cart" 
             onClick={addCartItem}>
-              <AddShoppingCart fontsize="large"  />
+              <AddShoppingCart fontSize="large"  />
             </IconButton>
            ) : (
             <IconButton aria-label="Add to Cart" disabled>
-              <AddShoppingCart fontsize="large" />
+              <AddShoppingCart fontSize="large" />
             </IconButton>
            )}
             <IconButton aria-label="share">

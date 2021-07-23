@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -10,15 +10,22 @@ import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { AddShoppingCart } from '@material-ui/icons';
 import ItemCount from './ItemCount';
-import { useCart, useCartUpdate } from '../CartContext';
+import {  useCartUpdate } from '../CartContext';
+import Box from '@material-ui/core/Box';
+import { NavLink } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      maxWidth: 345,
+      maxWidth: 600,
+      marginLeft: "30%"
     },
     action: {
-      marginTop: "1rem"
+      textAlign: "center",
+    },
+    marginL: {
+      marginLeft: 70,
+     
     },
     media: {
       height: 0,
@@ -39,17 +46,13 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  
-function ItemDetail(props) {
-    console.log(props);
-    const addToCart = useCartUpdate()
-    const cart = useCart()
-    const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
+    
 
-    const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+function ItemDetail(props) {
+   
+    const addToCart = useCartUpdate()
+    const classes = useStyles();
+  
  
   /*Estado del contador del boton*/
   const [count, setCount] = React.useState(0);
@@ -62,7 +65,7 @@ function ItemDetail(props) {
         setCount(count -1);
        }
     }
-    
+
     function addCartItem(event) {
       event.preventDefault();
       addToCart(
@@ -72,24 +75,27 @@ function ItemDetail(props) {
         props.prod.price,
         props.prod.image,
         );
-       
         setCount(0);
     }
      
 
     return (
-        
+      <Box mx="auto" bgcolor="background.paper"  p={1}>
         <Card className={classes.root}>
-          DETALLE DEL PRODUCTO
-        
+              <Typography
+                    className = {classes.action}
+                    variant = 'h4'  
+                    color = 'primary.main'
+                >
+                       DETALLE DEL PRODUCTO
+                </Typography>
         <CardHeader
             
             action={
                 <Typography
                     className = {classes.action}
-                    variant = 'h5'
-                    color = 'textSecondary'
-                    
+                    variant = 'h3' 
+                    color = 'primary'
                 >
                     ${props.prod.price}
                 </Typography>
@@ -104,25 +110,43 @@ function ItemDetail(props) {
           title={props.prod.text}
         />
         <CardContent>
-          {props.prod.description}
+        <Typography
+                    className = {classes.action}
+                    variant = 'h5'  
+                    color = 'primary.main'
+                >
+                     {props.prod.description}
+                </Typography>
+          
         </CardContent>
         <CardActions disableSpacing>
             <ItemCount addItem={addItem} lessItem={lessItem} count={count}/>
            {count > 0 ? (
              <IconButton aria-label="Add to Cart" 
              onClick={addCartItem}>
-              <AddShoppingCart fontsize="large" />
+              <AddShoppingCart fontSize="large" />
             </IconButton>
            ) : (
             <IconButton aria-label="Add to Cart" disabled>
-              <AddShoppingCart fontsize="large" />
+              <AddShoppingCart fontSize="large" />
             </IconButton>
            )}
             <IconButton aria-label="share">
-              <FavoriteIcon/>
+              <FavoriteIcon/> 
             </IconButton>
+            <NavLink to="/" activeClassName="selected" style={{ textDecoration: 'none' }}>
+            <Typography
+                    className = {classes.marginL}
+                    variant = 'h6'  
+                    color="textPrimary"
+                >
+                       Volver a productos
+                </Typography>
+          </NavLink>
           </CardActions>
+          
     </Card>
+    </Box>
     )
 }
 

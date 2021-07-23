@@ -7,6 +7,7 @@ import NavBar from '../components/NavBar';
 import DetailsItem from '../components/DetailsItem';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import { CartProvider } from '../CartContext';
+import Checkout from '../components/CheckOutForm/Checkout';
 
 function AppRouters() {
     return (
@@ -18,6 +19,10 @@ function AppRouters() {
                 <Route exact path="/Login" component={Login}></Route>
                 <Route exact path="/SignUp" component={SignUp}></Route> 
                 <Route exact path="/Cart" component={Cart}></Route>
+                <Route exact path="/Checkout" component={Checkout}></Route>
+                <Route exact path="/Productos/detail/:product_id" component={DetailsItem}></Route>
+                
+                <Route exact path="/Productos/detail/:product_id" component={DetailsItem}></Route>
                 <Route exact path="/Productos/detail/:product_id" component={DetailsItem}></Route>
             </Switch>
             </CartProvider>

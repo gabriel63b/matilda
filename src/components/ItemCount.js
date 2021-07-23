@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
@@ -26,11 +25,9 @@ export default function ItemCount(props) {
     
         return (
             <div className={classes.root}>
-                
                     <Button variant="outlined" size="small" color="secondary" className={classes.marginR} onClick={props.lessItem}> <RemoveIcon></RemoveIcon> </Button>
                     <h3> {props.count} </h3>
-                    <Button variant="outlined" size="small" color="secondary" onClick={props.addItem}> <AddIcon/> </Button>
-                
+                    <Button variant="outlined" size="small" color="secondary" onClick={props.addItem}> <AddIcon/></Button>
             </div>        
     )
 }
