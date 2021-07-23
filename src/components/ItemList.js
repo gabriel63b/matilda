@@ -8,7 +8,7 @@ const ItemList = () => {
   const LoadItems = useLoadItems();
   const items = useItems ();
   
-
+  /*Carga los productos desde la base de datos*/
   LoadItems();
   
   return (

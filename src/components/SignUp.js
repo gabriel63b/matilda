@@ -55,6 +55,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("")
   const history = useHistory();
 
+  /*Si el usuario esta correctamente creado nos lleva al Home*/
   const signup = (e) => {
     e.preventDefault();
     auth.createUserWithEmailAndPassword(email, password).then((auth) => {

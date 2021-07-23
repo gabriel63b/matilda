@@ -5,16 +5,16 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
-import { useCart, totalCart } from '../../CartContext';
+import { useCart, totalCart, useUser } from '../../CartContext';
 
-
-const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
+/*No llegue a modificar los siguientes detalles*/
 const payments = [
   { name: 'Card type', detail: 'Visa' },
   { name: 'Card holder', detail: 'Mr John Smith' },
   { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
   { name: 'Expiry date', detail: '04/2024' },
 ];
+/* */
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Review() {
   const classes = useStyles();
   const cart = useCart()
-  console.log(cart);
+  const user = useUser()
+  
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -56,8 +57,7 @@ export default function Review() {
           <Typography variant="h6" gutterBottom className={classes.title}>
             Shipping
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
+          <Typography gutterBottom>{user}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>

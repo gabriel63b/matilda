@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
-import { useCartRemove } from '../../CartContext';
+import { useCartRemove, useUser } from '../../CartContext';
 import ThanksFor from '../ThanksFor';
 
 
@@ -71,6 +71,7 @@ function getStepContent(step) {
 export default function Checkout() {
   const classes = useStyles();
   const removeItem = useCartRemove()
+  const user = useUser()
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -106,7 +107,7 @@ export default function Checkout() {
               <React.Fragment>
                 <Typography  align="center">
                     <Typography variant="h5" gutterBottom>
-                         Gracias por su compra.
+                         Gracias por su compra {user}
                     </Typography>
                     <Typography variant="subtitle1">
                          Su número de orden es #2001539. 

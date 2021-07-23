@@ -10,8 +10,9 @@ import CartWidget from "./CartWidget";
 import image from "../assets/delivery-man.svg";
 import { Badge } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
-import { useCart, totalItems } from '../CartContext';
+import { useCart, totalItems, useUser, useLoadUser } from '../CartContext';
 import swall from 'sweetalert';
+import { auth } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar() {
   const classes = useStyles();
   const cart = useCart()
+  const user = useUser()
+  const LoadUser = useLoadUser();
   const [to, setTo] = useState("/");
   
   /*Comprueba si el carrito está vacio, envia alerta y no nos lleva a la pagina de carrito si está vacio*/
@@ -61,6 +64,13 @@ export default function NavBar() {
     return aux;
   }
 
+  /*Cierra sesion de usuario*/
+  const handleAuth = () => {
+    if (user){
+      auth.signOut();
+      LoadUser(null);
+    }
+  }
   
   return (
     <div className={classes.root}>
@@ -73,12 +83,14 @@ export default function NavBar() {
           </NavLink>
           <div className={classes.grow}/>
           <Typography variant="h6" color="textPrimary" component="p">
-            Hola usuario
+            
+            Hola {user ? user : "usuario"}  {/* Si hay usuario, lo escribe y coloca el email sino "usuario" */}
+
           </Typography>
           <div className={classes.button}>
           <NavLink to="/Login" activeClassName="selected" style={{ textDecoration: 'none' }}>
-            <Button className ={classes.marginR} variant="outlined">
-               <strong>Login</strong>
+            <Button className ={classes.marginR} variant="outlined" onClick = {handleAuth}>
+               <strong>{user ? "CERRAR SESION" : "Login"}</strong>
             </Button>
           </NavLink> 
             <Badge className ={classes.marginR} badgeContent={totalItems(cart)} color="secondary"> 
@@ -87,6 +99,7 @@ export default function NavBar() {
           </div>
         </Toolbar>
       </AppBar>
+      
     </div>
   );
 }

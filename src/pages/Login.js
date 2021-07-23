@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink, useHistory } from 'react-router-dom';
+import { useLoadUser } from '../CartContext';
 import { auth } from '../firebase';
 
 function Copyright() {
@@ -50,16 +51,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  /*capturo email y password con useState para loguearse*/
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+  const LoadUser = useLoadUser();
 
+   /*Si el usuario coincide nos lleva al Home*/
   const signin = (e) => {
     e.preventDefault();
     auth.signInWithEmailAndPassword(email, password).then((auth) => {
-      console.log(auth);
      if (auth) {
-       history.push("/")
+       history.push("/");
+       LoadUser(email);
      }
    }).catch(err =>alert(err.message))
   }

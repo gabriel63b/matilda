@@ -1,10 +1,7 @@
 import React from 'react'
 import ItemListContainer from '../components/ItemListContainer';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import { NavLink } from 'react-router-dom';
+import BoxWelcome from '../components/BoxWelcome';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,32 +24,19 @@ const useStyles = makeStyles((theme) => ({
       height: "4rem",
     },
     marginR: {
-        marginRight: "30px", 
+        marginLeft: '25%', 
     } 
   }));
 
 function Home() {
     const classes = useStyles();
+
     return (
-        <div className ={classes.marginR}>
-            <h1>Bienvenidos a Doña Matilda</h1>
-            <NavLink to="/Login" activeClassName="selected" style={{ textDecoration: 'none' }}>
-            <Button className ={classes.marginR} variant="outlined">
-               <strong>Todos los productos</strong>
-            </Button>
-          </NavLink> 
-            <NavLink to="/Login" activeClassName="selected" style={{ textDecoration: 'none' }}>
-            <Button className ={classes.marginR} variant="outlined">
-               <strong>Veggies</strong>
-            </Button>
-          </NavLink> 
-          <NavLink to="/Login" activeClassName="selected" style={{ textDecoration: 'none' }}>
-            <Button className ={classes.marginR} variant="outlined">
-               <strong>Mucha carne</strong>
-            </Button>
-          </NavLink> 
-                <ItemListContainer/>
-            
+        <div>
+            <div className ={classes.marginR}>
+                <BoxWelcome/>
+            </div>
+            <ItemListContainer/>
         </div>
     )
 }

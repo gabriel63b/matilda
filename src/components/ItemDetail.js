@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
       textAlign: "center",
     },
     marginL: {
-      marginLeft: 70,
+      marginLeft: 10,
+      marginRight: 10,
      
     },
     media: {
@@ -135,13 +136,15 @@ function ItemDetail(props) {
               <FavoriteIcon/> 
             </IconButton>
             <NavLink to="/" activeClassName="selected" style={{ textDecoration: 'none' }}>
+            <button>
             <Typography
                     className = {classes.marginL}
                     variant = 'h6'  
                     color="textPrimary"
                 >
-                       Volver a productos
+                  Volver por más empanadas
                 </Typography>
+            </button>
           </NavLink>
           </CardActions>
           

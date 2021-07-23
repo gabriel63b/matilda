@@ -2,6 +2,8 @@ import React, {useContext, createContext, useState, useEffect} from 'react'
 import swall from 'sweetalert';
 import 'firebase/firestore'
 import {getFirestore} from './firebase'
+export const UserContext = createContext()
+export const LoadUserContext = createContext()
 export const ItemsContext = createContext()
 export const LoadItemsContext = createContext()
 export const CartContext = createContext()
@@ -15,6 +17,13 @@ export function useItems() {
 }
 export function useLoadItems() {
   return useContext(LoadItemsContext);
+}
+
+export function useUser() {
+  return useContext(UserContext);
+}
+export function useLoadUser() {
+  return useContext(LoadUserContext);
 }
 
 export function useCart() {
@@ -46,6 +55,7 @@ export function CartProvider ({children}) {
     const [cart,setCart] = useState ([])
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState([]);
+    const [user, setUser] = useState(null);
   
   /*Carga los productos desde la base de datos*/
   const LoadItems = () => { 
@@ -67,7 +77,11 @@ export function CartProvider ({children}) {
     })
   },[])
 }
-    
+  /*Actualiza nombre de usuario*/  
+  const LoadUser = (nameUser) => {
+    setUser(nameUser);
+  }
+
     /*Agrega o actualiza la cantidad de items del carro de compras*/
     const addToCart = (id, name, count, price, image) => { 
       const aux = cart.find((item) => item.id === id);
@@ -111,7 +125,8 @@ export function CartProvider ({children}) {
     setCart(newCart);
     }
   
-  const removeTotalItem = () => {
+    /*Elimina todos los productos del carro de compras*/
+   const removeTotalItem = () => {
       setCart([]);
     } 
 
@@ -142,17 +157,21 @@ export function CartProvider ({children}) {
 
 
   return (
-    <ItemsContext.Provider value={items}>
-      <LoadItemsContext.Provider value={LoadItems}>
-        <CartContext.Provider value={cart}>
-          <CartUpdateContext.Provider value = {addToCart}>
-            <CartRemoveContext.Provider value = {removeItem}>
+    <UserContext.Provider value={user}>
+      <LoadUserContext.Provider value={LoadUser}>
+        <ItemsContext.Provider value={items}>
+          <LoadItemsContext.Provider value={LoadItems}>
+            <CartContext.Provider value={cart}>
+              <CartUpdateContext.Provider value = {addToCart}>
+                <CartRemoveContext.Provider value = {removeItem}>
             {children}
               </CartRemoveContext.Provider>
             </CartUpdateContext.Provider>
-        </CartContext.Provider>
-      </LoadItemsContext.Provider> 
-    </ItemsContext.Provider>
+          </CartContext.Provider>
+        </LoadItemsContext.Provider> 
+      </ItemsContext.Provider>
+      </LoadUserContext.Provider>
+    </UserContext.Provider>
   );
    
 }

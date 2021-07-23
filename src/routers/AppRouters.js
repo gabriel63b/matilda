@@ -8,6 +8,7 @@ import DetailsItem from '../components/DetailsItem';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import { CartProvider } from '../CartContext';
 import Checkout from '../components/CheckOutForm/Checkout';
+import ItemListFilter from '../components/ItemListFilter';
 
 function AppRouters() {
     return (
@@ -21,9 +22,9 @@ function AppRouters() {
                 <Route exact path="/Cart" component={Cart}></Route>
                 <Route exact path="/Checkout" component={Checkout}></Route>
                 <Route exact path="/Productos/detail/:product_id" component={DetailsItem}></Route>
+
+                <Route exact path="/Productos/:filter" component={ItemListFilter}></Route>
                 
-                <Route exact path="/Productos/detail/:product_id" component={DetailsItem}></Route>
-                <Route exact path="/Productos/detail/:product_id" component={DetailsItem}></Route>
             </Switch>
             </CartProvider>
         </Router>
